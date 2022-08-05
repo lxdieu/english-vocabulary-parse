@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Dashboard = ()=>{
-  return (<div>Dashboard 12313</div>)
+const Dashboard = ({handleAdd})=>{
+  
+  return (<div onClick={handleAdd}>Click me</div>)
 }
 export default Dashboard
