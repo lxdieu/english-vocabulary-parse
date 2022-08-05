@@ -19,10 +19,8 @@ const db = getFirestore(app);
 function App() {
   const handleAdd = async ()=>{
     try {
-      const docRef = await addDoc(collection(db, "users"), {
-        first: "Ada",
-        last: "Lovelace",
-        born: 1815
+      const docRef = await addDoc(collection(db, "list-vocabulary"), {
+        value:"test string"
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
