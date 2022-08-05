@@ -1,8 +1,9 @@
-import './App.css';
+import "./App.css";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore"; 
-import Dashboard from './components/Dashboard';
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import Dashboard from "./components/Dashboard";
+import { useEffect } from "react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDbR_bR7_eR3j864xuRRJCOJVMLytAs7oE",
@@ -16,19 +17,28 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 function App() {
-  const handleAdd = async ()=>{
+  useEffect(() => {
+    getData();
+  });
+  const handleAdd = async () => {
     try {
-      const docRef = await addDoc(collection(db, "list-vocabulary"), {
-        value:"test string"
+      const docRef = await addDoc(collection(db, "list-vocab"), {
+        value: "test string",
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-  }
-  return (
-    <Dashboard handleAdd={handleAdd}/>
-  );
+  };
+
+  const getData = async () => {
+    const querySnapshot = await getDocs(collection(db, "list-vocab"));
+
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()?.value}`);
+    });
+  };
+  return <Dashboard handleAdd={handleAdd} />;
 }
 
 export default App;
